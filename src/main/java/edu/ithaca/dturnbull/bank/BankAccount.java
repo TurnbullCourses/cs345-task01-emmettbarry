@@ -28,8 +28,15 @@ public class BankAccount {
     }
 
     public static boolean isAmountValid(double amount) {
-        // method takes in a double and checks amount of decimal points
-        return false;
+         // method takes in a double and checks amount of decimal points
+         if (amount < 0) {
+            return false;
+        }
+        if ((amount * 100) % 1 != 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
