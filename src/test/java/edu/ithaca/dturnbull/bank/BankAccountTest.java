@@ -108,4 +108,27 @@ class BankAccountTest {
 
     }
 
+    @Test
+    void depositTest(){
+        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, ()-> bankAccount.deposit(300.3454));
+        assertThrows(IllegalArgumentException.class, ()-> bankAccount.deposit(-10));
+
+        assertTrue(bankAccount.deposit(100));
+
+    }
+
+    @Test
+    void transferTest(){
+        BankAccount bankAccount1 = new BankAccount("a@b.com", 200);
+        BankAccount bankAccount2 = new BankAccount("e@b.com", 300);
+
+        assertTrue(bankAccount1.transfer(100, bankAccount2));
+        assertFalse(bankAccount1.transfer(300, bankAccount2));
+        assertThrows(IllegalArgumentException.class, ()-> bankAccount1.transfer(0, bankAccount2));
+        assertThrows(IllegalArgumentException.class, ()-> bankAccount2.transfer(300.3454, bankAccount1));
+        assertThrows(IllegalArgumentException.class, ()-> bankAccount2.transfer(-10, bankAccount1));
+    }
+
+
 }

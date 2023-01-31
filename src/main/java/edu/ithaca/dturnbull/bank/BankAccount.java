@@ -1,12 +1,11 @@
 package edu.ithaca.dturnbull.bank;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class BankAccount {
 
     private String email;
     private double balance;
+
 
     /**
      * @throws IllegalArgumentException if email is invalid
@@ -98,5 +97,16 @@ public class BankAccount {
 
         return true;
 
+    }
+
+    public boolean deposit(double amount){
+        //This function deposits money into the account
+        //throws illigal argument exception 
+        return false;
+    }
+    public boolean transfer(double amount, BankAccount account){
+        //This function transfers money into an account
+        //throws illigal argument exception
+        return false;
     }
 }
