@@ -1,5 +1,7 @@
 package edu.ithaca.dturnbull.bank;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BankAccount {
 
@@ -9,32 +11,30 @@ public class BankAccount {
     /**
      * @throws IllegalArgumentException if email is invalid
      */
-    public BankAccount(String email, double startingBalance){
-        if (isEmailValid(email)){
+    public BankAccount(String email, double startingBalance) {
+        if (isEmailValid(email)) {
             this.email = email;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Email address: " + email + " is invalid, cannot create account");
         }
-        if(isAmountValid(startingBalance)){
+        if (isAmountValid(startingBalance)) {
             this.balance = startingBalance;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Email address: " + email + " is invalid, cannot create account");
         }
     }
 
-    public double getBalance(){
+    public double getBalance() {
         return balance;
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return email;
     }
 
     public static boolean isAmountValid(double amount) {
-         // method takes in a double and checks amount of decimal points
-         if (amount <= 0) {
+        // method takes in a double and checks amount of decimal points
+        if (amount <= 0) {
             return false;
         }
         if ((amount * 100) % 1 != 0) {
@@ -45,59 +45,58 @@ public class BankAccount {
     }
 
     /**
-     * @post reduces the balance by amount if amount is non-negative and smaller than balance
+     * @post reduces the balance by amount if amount is non-negative and smaller
+     *       than balance
      */
-    public void withdraw (double amount) throws InsufficientFundsException{
-        if(isAmountValid(amount)){
+    public void withdraw(double amount) throws InsufficientFundsException {
+        if (isAmountValid(amount)) {
             if (amount <= balance) {
                 balance -= amount;
             } else {
                 throw new InsufficientFundsException("Not enough money");
             }
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Invalid Amount");
         }
     }
 
+    public static boolean isEmailValid(String email) {
+        int atIndex = email.indexOf("@");
+        int dotIndex = email.lastIndexOf(".");
 
-    public static boolean isEmailValid(String email){
-        int atsign = email.indexOf('@');
-        if (atsign == -1){
+        if (atIndex < 1 || dotIndex < atIndex + 2 || dotIndex + 2 >= email.length()) {
             return false;
         }
-     
-        for(int i=0; i<atsign; i++ ){
-            if(email.charAt(i) == '#'){
+
+        for (int i = 0; i < atIndex; i++) {
+            char c = email.charAt(i);
+            if (i==0){
+                if (c == '.'){return false;}
+                else if( c == '_'){return false;}
+                else if(c == '-'){return false;}       
+            }
+            if (c == '.' && email.charAt(i+1) == '.'){
                 return false;
             }
-            if (email.charAt(i) == '-' || email.charAt(i) == '_' || email.charAt(i) == '.'){
-                
-                if (i == atsign-1){
-                    return false;
-                }
-                if (i == 0){
-                    return false;
-                }
-                if (email.charAt(i+1) == '-' || email.charAt(i+1) == '_' || email.charAt(i+1) == '.'){
-                    return false;
-                }
-                if (email.charAt(i-1) == '-' || email.charAt(i-1) == '_' || email.charAt(i-1) == '.'){
-                    return false;
-                }
-                
-            }
-        }
-        for (int i=atsign; i<email.length(); i++){
-            if(email.charAt(i) == '#'){
+            if (!Character.isLetterOrDigit(c) && c != '.' && c != '_' && c != '-') {
                 return false;
             }
-            if (email.charAt(i) == '.'){
-                
+            if(i == atIndex-1 && email.charAt(i) == '-'){
+                return false;
             }
         }
-    
+
+        for (int i = atIndex + 1; i < dotIndex; i++) {
+            char c = email.charAt(i);
+            if (!Character.isLetterOrDigit(c) && c != '.' && c != '-') {
+                return false;
+            }
+            if (c == '.' && email.charAt(i+1) == '.'){
+                return false;
+            }
+        }
+
         return true;
-       
+
     }
 }
