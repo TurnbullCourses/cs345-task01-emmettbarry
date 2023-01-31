@@ -35,8 +35,8 @@ class BankAccountTest {
         // Yash's tests
         
         // withdraw amount <= 0
-        assertThrows(InvalidWithdrawalAmountException.class, () -> bankAccount.withdraw(0));
-        assertThrows(InvalidWithdrawalAmountException.class, () -> bankAccount.withdraw(-10));
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(0));
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-10));
         // withdraw amount > bank balance
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300));
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(101));
@@ -45,7 +45,7 @@ class BankAccountTest {
         assertDoesNotThrow( () -> bankAccount.withdraw(1));
         //Invalid Amount
         assertThrows(IllegalArgumentException.class, ()-> bankAccount.withdraw(100.495734));
-        assertDoesNotThrow( ()-> bankAccount.withdraw(100.15));
+        assertDoesNotThrow( ()-> bankAccount.withdraw(5.15));
     }
 
 
