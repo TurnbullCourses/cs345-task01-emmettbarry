@@ -99,14 +99,30 @@ public class BankAccount {
 
     }
 
-    public boolean deposit(double amount){
+    public void deposit(double amount){
         //This function deposits money into the account
         //throws illigal argument exception 
-        return false;
+        if(isAmountValid(amount)){
+            this.balance += amount;
+        }
+        else{
+            throw new IllegalArgumentException("Invalid amount entered");
+        }
     }
-    public boolean transfer(double amount, BankAccount account){
+    public void transfer(double amount, BankAccount account) throws InsufficientFundsException{
         //This function transfers money into an account
         //throws illigal argument exception
-        return false;
+        if(isAmountValid(amount)){
+            if(this.balance < amount){
+                throw new InsufficientFundsException("Not enough funds");
+            }
+            else{
+                withdraw(amount);
+                account.deposit(amount);
+            }
+        }
+        else{
+            throw new IllegalArgumentException("Illigal Argument");
+        }
     }
 }
