@@ -46,6 +46,14 @@ class BankAccountTest {
         //Invalid Amount
         assertThrows(IllegalArgumentException.class, ()-> bankAccount.withdraw(100.495734));
         assertDoesNotThrow( ()-> bankAccount.withdraw(5.15));
+
+        //Testing the monoey is actaully withdrawn
+        BankAccount bankAccount2 = new BankAccount("a@b.com", 500);
+        bankAccount2.withdraw(250);
+        assertEquals(250, bankAccount2.getBalance());
+
+        bankAccount2.withdraw(100);
+        assertEquals(150, bankAccount2.getBalance());
     }
 
 
@@ -113,8 +121,8 @@ class BankAccountTest {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
         assertThrows(IllegalArgumentException.class, ()-> bankAccount.deposit(300.3454));
         assertThrows(IllegalArgumentException.class, ()-> bankAccount.deposit(-10));
-
         assertDoesNotThrow(()-> bankAccount.deposit(100));
+
 
     }
 
@@ -128,6 +136,15 @@ class BankAccountTest {
         assertThrows(IllegalArgumentException.class, ()-> bankAccount1.transfer(0, bankAccount2));
         assertThrows(IllegalArgumentException.class, ()-> bankAccount2.transfer(300.3454, bankAccount1));
         assertThrows(IllegalArgumentException.class, ()-> bankAccount2.transfer(-10, bankAccount1));
+
+        //tests to make sure the amount actaully transfered. 
+        BankAccount bankAccount3 = new BankAccount("j@r.com", 400);
+        BankAccount bankAccount4 = new BankAccount("e@b.com", 300);
+
+        assertDoesNotThrow(()-> bankAccount3.transfer(200, bankAccount4));
+        assertEquals(200, bankAccount3.getBalance());
+        assertEquals(500, bankAccount4.getBalance());
+
     }
 
 
